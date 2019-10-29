@@ -4,12 +4,14 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="card_height">304dp</dimen>
     <dimen name="md_keylines">16dp</dimen>
+
     <dimen name="tile_padding">4dp</dimen>
     <dimen name="tile_height">144dp</dimen>
     <dimen name="tile_text_height">48dp</dimen>
     <dimen name="tile_text_margin_top">96dp</dimen>
     <dimen name="tile_image_height">42dp</dimen>
     <dimen name="tile_image_margin_top">27dp</dimen>
+
     <dimen name="app_bar_height">256dp</dimen>
     <dimen name="article_keylines">72dp</dimen>
     <dimen name="avator_size">40dp</dimen>
@@ -22,6 +24,23 @@
     <dimen name="card_image_height">200dp</dimen>
     <dimen name="list_body">14sp</dimen>
     <dimen name="navheader_height">222dp</dimen>
+
+    <!-- voto -->
+    <dimen name="voto_title">16sp</dimen>
+    <dimen name="voto_voto">18sp</dimen>
+    <dimen name="voto_subtitle">13sp</dimen>
+
+    <!-- prenotazione -->
+    <dimen name="prenotazione_title">18sp</dimen>
+    <dimen name="prenotazione_subtitle">15sp</dimen>
+
+    <!-- tassa -->
+    <dimen name="tassa_text">16sp</dimen>
+
+    <!-- info/alert -->
+    <dimen name="info_text">18sp</dimen>
+
+
     <dimen name="bottom_bar_height">56dp</dimen>
     <!-- Fix for bottom navigation view -->
     <dimen name="design_bottom_navigation_text_size">15sp</dimen>

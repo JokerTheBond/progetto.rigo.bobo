@@ -1,4 +1,4 @@
-package com.example.rigobobo;
+package com.example.rigobobo.View;
 
 
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,14 +16,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.rigobobo.DataManager.InfoManager;
+import com.example.rigobobo.DataManager.TassaManager;
+import com.example.rigobobo.Model.Info;
+import com.example.rigobobo.Model.Tassa;
+import com.example.rigobobo.R;
+
+import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeContentFragment extends Fragment {
+
+    AsyncTask<Void, Void, Info> runningTask;
+    static View thisView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,10 +47,13 @@ public class HomeContentFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
-        // Set padding for Tiles (not needed for Cards/Lists!)
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
         recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+        if (runningTask != null) runningTask.cancel(true);
+        runningTask = new LoadData();
+        runningTask.execute();
 
         return recyclerView;
     }
@@ -53,21 +70,26 @@ public class HomeContentFragment extends Fragment {
             name = (TextView) itemView.findViewById(R.id.tile_title);
             color = (ImageView) itemView.findViewById(R.id.tile_color);
             img = (ImageView) itemView.findViewById(R.id.tile_img);
+            thisView = itemView;
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Context context = v.getContext();
-                    Intent intent = new Intent(context, DetailActivity.class);
-                    intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
+                    Class<?> t;
+                    if(getAdapterPosition() == 0) t = AppelloActivity.class;
+                    else if(getAdapterPosition() == 1) t = VotoActivity.class;
+                    else if(getAdapterPosition() == 2) t = PrenotazioneActivity.class;
+                    else t = TassaActivity.class;
+                    Intent intent = new Intent(context, t);
+                    //intent.putExtra(VotoActivity.EXTRA_POSITION, getAdapterPosition());
                     context.startActivity(intent);
                 }
             });
         }
     }
 
-    public static class ContentAdapter
-            extends RecyclerView.Adapter<ViewHolder> {
+    public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of List in RecyclerView.
         private static final int LENGTH = 4;
 
@@ -106,5 +128,60 @@ public class HomeContentFragment extends Fragment {
             return LENGTH;
         }
     }
+
+
+    private final class LoadData extends AsyncTask<Void, Void, Info> {
+
+        @Override
+        protected Info doInBackground(Void... params) {
+            Info info;
+            try {
+                info = InfoManager.getInstance().getInfoData();
+            }
+            catch (Exception e){
+                return null;
+            }
+            System.out.println(info);
+            return info;
+        }
+
+        @Override
+        protected void onPostExecute(Info info) {
+            /*
+            LinearLayout content = thisView.findViewById(R.id.content);
+            View scrollList = getLayoutInflater().inflate(R.layout.item_scroll_list, null);
+            content.addView(scrollList);
+            LinearLayout list = thisView.findViewById(R.id.list);
+
+            if(tasse == null || tasse.size() == 0){
+                //TODO Set empty view or show alert if fail
+                View infoItem = getLayoutInflater().inflate(R.layout.item_info, null);
+                TextView info = infoItem.findViewById(R.id.info);
+                info.setText( "Non sono presenti nuove tasse da pagare" );
+                list.addView(infoItem);
+                return;
+            }
+
+            Button topButton = (Button) getLayoutInflater().inflate(R.layout.item_top_button, null);
+            topButton.setText("Vai su Esse3 per pagare le tasse");
+            content.addView(topButton, 1);
+
+            View alertItem = getLayoutInflater().inflate(R.layout.item_alert, null);
+            TextView info = alertItem.findViewById(R.id.info);
+            info.setText( "Sono presenti nuove tasse da pagare" );
+            list.addView(alertItem);
+
+            for(Tassa it: tasse){
+                View item = getLayoutInflater().inflate(R.layout.activity_tassa_item, null);
+                TextView importo = item.findViewById(R.id.importo);
+                TextView scadenza = item.findViewById(R.id.scadenza);
+                importo.setText( Float.toString(it.getImporto()) );
+                scadenza.setText( it.getScadenzaFormatted() );
+                list.addView(item);
+            }*/
+        }
+
+    }
+
 
 }

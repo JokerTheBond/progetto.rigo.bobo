@@ -1,0 +1,12 @@
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/topButton"
+    style="@style/Widget.AppCompat.Button.Borderless"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorDark"
+    tools:text="Vai su Esse3 per pagare le tasse"
+    android:textAllCaps="false"
+    android:textColor="@color/primary"
+    android:onClick="topButtonClick"
+    android:textSize="16sp" />

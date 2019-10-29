@@ -6,11 +6,13 @@
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
+    android:clipToPadding="false"
     android:padding="@dimen/tile_padding">
 
     <ImageView
         android:id="@+id/tile_color"
         android:layout_width="match_parent"
+        android:elevation="2dp"
         android:layout_height="@dimen/tile_height" />
 
     <TextView
@@ -18,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/tile_text_height"
         android:layout_marginTop="@dimen/tile_text_margin_top"
+        android:elevation="2dp"
         android:background="#33000000"
         android:gravity="center"
         android:text="@string/item_title"
@@ -29,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/tile_image_height"
         android:layout_marginTop="@dimen/tile_image_margin_top"
+        android:elevation="2dp"
         app:srcCompat="@drawable/ic_annunci" />
 
 </RelativeLayout>
