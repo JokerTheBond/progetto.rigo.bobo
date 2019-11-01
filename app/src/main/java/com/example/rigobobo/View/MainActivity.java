@@ -17,18 +17,17 @@ import androidx.fragment.app.Fragment;
 
 import com.example.rigobobo.DataManager.DataManager;
 import com.example.rigobobo.R;
-import com.example.rigobobo.View.CalendarContentFragment;
-import com.example.rigobobo.View.ChatContentFragment;
-import com.example.rigobobo.View.FileContentFragment;
-import com.example.rigobobo.View.HomeContentFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static MainActivity instance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
 
         //Get user login info
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
@@ -109,8 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Fragment homeFragment = new HomeContentFragment();
     private Fragment calendarFragment = new CalendarContentFragment();
-    private Fragment fileFragment = new FileContentFragment();
-    private Fragment chatFragment = new ChatContentFragment();
+    private Fragment chatFragment = new NotificaContentFragment();
 
     private void setFragment(){ setFragment(homeFragment); }
     private void setFragment(Fragment fragment){
@@ -124,8 +122,6 @@ public class MainActivity extends AppCompatActivity {
                 return homeFragment;
             case R.id.nav_calendar:
                 return calendarFragment;
-            case R.id.nav_file:
-                return fileFragment;
             case R.id.nav_chat:
                 return chatFragment;
         }
@@ -150,4 +146,9 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
+    public static Context getContext()
+    {
+        return instance;
+    }
 }

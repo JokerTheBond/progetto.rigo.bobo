@@ -17,14 +17,26 @@ public class DataManager {
     private static DataManager dataManager = new DataManager();
     private Esse3Parser esse3Parser = Esse3Parser.getInstance();
 
+    private String username;
+    private String password;
+
     /* TODO: questo va fatto al login o all'apertura dell'app */
     private DataManager(){}
     public static DataManager getInstance() { return dataManager; }
 
     public DataManager setCredentials(String username, String password){
         esse3Parser.setCredentials(username, password);
+        this.username = username;
+        this.password = password;
         return this;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
 

@@ -3,6 +3,7 @@ package com.example.rigobobo.View;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -16,12 +17,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rigobobo.Database.DBOpenHelper;
+import com.example.rigobobo.Database.EventHelper;
+import com.example.rigobobo.Database.NotificaHelper;
 import com.example.rigobobo.R;
 
+import java.util.Date;
 
-public class ChatContentFragment extends Fragment {
 
-    public ChatContentFragment() {
+public class NotificaContentFragment extends Fragment {
+
+    public NotificaContentFragment() {
         // Required empty public constructor
     }
 
@@ -33,6 +39,17 @@ public class ChatContentFragment extends Fragment {
         ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
+
+        /** Per debug, stampa tutte le notifiche
+        NotificaHelper notificaHelper = new NotificaHelper();
+        Cursor cursor = notificaHelper.getAll();
+        while(cursor.moveToNext()){
+            for(String column: cursor.getColumnNames()){
+                System.out.println(column + ": " + cursor.getString( cursor.getColumnIndex(column) ));
+            }
+            System.out.println();
+        }
+         */
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

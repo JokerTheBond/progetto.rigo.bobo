@@ -9,11 +9,7 @@
         android:icon="@drawable/ic_calendario"
         android:title="Calendario" />
     <item
-        android:id="@+id/nav_file"
-        android:icon="@drawable/ic_file"
-        android:title="File" />
-    <item
         android:id="@+id/nav_chat"
-        android:icon="@drawable/ic_chat"
-        android:title="Chat" />
+        android:icon="@drawable/ic_bell"
+        android:title="Notifiche" />
 </menu>
