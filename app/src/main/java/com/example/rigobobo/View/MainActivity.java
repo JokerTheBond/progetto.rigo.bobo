@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == android.R.id.home) {
             mDrawerLayout.openDrawer(GravityCompat.START);
         } else if (id == R.id.action_logout) {
+            /*TODO: delete database or create user specific tables*/
             deleteSharedPreferences("login");
             finish();
             Context context = MainActivity.this;

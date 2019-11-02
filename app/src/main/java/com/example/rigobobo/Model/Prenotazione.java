@@ -31,11 +31,11 @@ public class Prenotazione {
         if (obj == this) { return true; }
         if ( !(obj instanceof Prenotazione) ) { return false; }
         Prenotazione guest = (Prenotazione) obj;
-        if(this.nome != guest.nome) return false;
-        if(this.data != guest.data) return false;
-        if(this.desc != guest.desc) return false;
+        if( !this.nome.equals(guest.nome) ) return false;
+        if( !this.data.equals(guest.data) ) return false;
+        if( !this.desc.equals(guest.desc) ) return false;
         if(this.edificio != guest.edificio) return false;
-        if(this.aula != guest.aula) return false;
+        if( !this.aula.equals(guest.aula) ) return false;
         return true;
     }
 

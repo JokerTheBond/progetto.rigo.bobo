@@ -27,9 +27,9 @@ public class Appello {
         if (obj == this) { return true; }
         if ( !(obj instanceof Appello) ) { return false; }
         Appello guest = (Appello) obj;
-        if(this.nome != guest.nome) return false;
-        if(this.data != guest.data) return false;
-        if(this.desc != guest.desc) return false;
+        if( !this.nome.equals(guest.nome) ) return false;
+        if( !this.data.equals(guest.data) ) return false;
+        if( !this.desc.equals(guest.desc) ) return false;
         return true;
     }
 

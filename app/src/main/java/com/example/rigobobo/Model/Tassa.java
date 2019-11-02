@@ -26,7 +26,7 @@ public class Tassa {
         if ( !(obj instanceof Tassa) ) { return false; }
         Tassa guest = (Tassa) obj;
         if(this.importo != guest.importo) return false;
-        if(this.scadenza != guest.scadenza) return false;
+        if( !this.scadenza.equals(guest.scadenza) ) return false;
         return true;
     }
 

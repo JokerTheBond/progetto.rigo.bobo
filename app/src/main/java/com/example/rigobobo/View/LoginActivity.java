@@ -13,8 +13,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.rigobobo.DataManager.AppelloManager;
 import com.example.rigobobo.DataManager.DataManager;
 import com.example.rigobobo.DataManager.InfoManager;
+import com.example.rigobobo.DataManager.PrenotazioneManager;
+import com.example.rigobobo.DataManager.TassaManager;
+import com.example.rigobobo.DataManager.VotoManager;
 import com.example.rigobobo.Model.Info;
 import com.example.rigobobo.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -47,16 +51,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     })
                     .show();
-            /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Look at this dialog!")
-                    .setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            //do things
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();*/
         }
         deleteSharedPreferences("login");
 
@@ -85,12 +79,17 @@ public class LoginActivity extends AppCompatActivity {
         protected Info doInBackground(Void... params) {
             Info info;
             try {
-                info = InfoManager.getInstance().getInfoData();
+                info = InfoManager.getInstance().getInfoData(true);
             }
             catch (Exception e){
                 return null;
             }
-            System.out.println(info);
+            if(info != null){
+                AppelloManager.getInstance().getAppelliData(true);
+                VotoManager.getInstance().getVotiData(true);
+                PrenotazioneManager.getInstance().getPrenotazioniData(true);
+                TassaManager.getInstance().getTasseData(true);
+            }
             return info;
         }
 
@@ -99,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
             SharedPreferences sharedPreferences =  getSharedPreferences("login", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
-            if(info instanceof Info) {
+            if(info != null) {
                 //Check passato
                 editor.putString("username", DataManager.getInstance().getUsername());
                 editor.putString("password", DataManager.getInstance().getPassword());

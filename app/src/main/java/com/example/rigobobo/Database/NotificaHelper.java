@@ -36,8 +36,7 @@ public class NotificaHelper {
         contentValues.put(DESCRIZIONE, descrizione);
         contentValues.put(DATA_ORA, data_ora.getTime());
         contentValues.put(VISTA, false);
-        System.out.println(DBOpenHelper.getInstance());
-        DBOpenHelper.getInstance().getReadableDatabase().insert(
+        DBOpenHelper.getInstance().getWritableDatabase().insert(
                 TABLE_NAME,  null, contentValues);
     }
 

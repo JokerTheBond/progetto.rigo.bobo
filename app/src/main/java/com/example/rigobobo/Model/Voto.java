@@ -31,8 +31,8 @@ public class Voto {
         if (obj == this) { return true; }
         if ( !(obj instanceof Voto) ) { return false; }
         Voto guest = (Voto) obj;
-        if(this.nome != guest.nome) return false;
-        if(this.data != guest.data) return false;
+        if( !this.nome.equals(guest.nome) ) return false;
+        if( !this.data.equals(guest.data) ) return false;
         if(this.voto != guest.voto) return false;
         if(this.lode != guest.lode) return false;
         if(this.crediti != guest.crediti) return false;
@@ -46,7 +46,7 @@ public class Voto {
         if(this.lode) lode = "L";
         return voto + lode;
     }
-    public float getVotoI(){ return voto; }
+    public int getVotoI(){ return voto; }
     public Boolean getLode(){ return lode; }
     public Date getData() { return data; }
     public String getDataFormatted() {

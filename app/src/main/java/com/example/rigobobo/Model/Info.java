@@ -24,6 +24,18 @@ public class Info {
         return (getNome() + " - " + getCorsoDiStudio() + " - " + getAnnoStr() + " - " + getFotoProfilo());
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if (obj == this) { return true; }
+        if ( !(obj instanceof Info) ) { return false; }
+        Info guest = (Info) obj;
+        if( !this.nome.equals(guest.nome) ) return false;
+        if( !this.corsoDiStudio.equals(guest.corsoDiStudio) ) return false;
+        if(this.anno != guest.anno) return false;
+        if( !this.fotoProfilo.equals(guest.fotoProfilo) ) return false;
+        return true;
+    }
+
     public String getNome() {
         return nome;
     }
