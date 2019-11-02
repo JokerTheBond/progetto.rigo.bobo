@@ -1,5 +1,6 @@
 package com.example.rigobobo.DataManager;
 
+import com.example.rigobobo.Database.VotoHelper;
 import com.example.rigobobo.Model.Voto;
 import com.example.rigobobo.Parser.Esse3Parser;
 
@@ -14,31 +15,40 @@ public class VotoManager {
     public static int VOTO_ORDER_BY_NEWEST = 1;
 
     private static VotoManager votoManager = new VotoManager();
+    private static VotoHelper votoHelper = new VotoHelper();
 
     private VotoManager (){ }
     public static VotoManager getInstance(){ return votoManager; }
 
     public List<Voto> getVotiData(){
-        try {
-            return Esse3Parser.getInstance().getVotiData();
+        if( votoHelper.getAll().size() == 0 ) {
+            return getVotiData(true);
         }
-        catch (Exception e){
-            throw e;
-        }
+        else return votoHelper.getAll();
     }
-
-    private List<Voto> voti = new ArrayList<>();
-    public List<Voto> getVotiData(int orderBy){
-        //TODO rimuovi questo fix
-        if(voti.size() == 0) {
-            List<Voto> t = this.getVotiData();
-            if (orderBy == VOTO_ORDER_BY_NEWEST)
-                Collections.sort(t, new DataVotoComparator());
-            if (orderBy == VOTO_ORDER_BY_HIGHEST)
-                Collections.sort(t, new VotoComparator());
-            voti = t;
-            return t;
+    public List<Voto> getVotiData(Boolean forceUpdate){
+        if(forceUpdate) {
+            List<Voto> voti;
+            try {
+                voti = Esse3Parser.getInstance().getVotiData();
+            } catch (Exception e) {
+                throw e;
+            }
+            if(voti != null && voti.size() > 0) {
+                //Se non ci sono stati errori nel download dei nuovi voti aggiorno il DB
+                votoHelper.flushTable();
+                votoHelper.addVoti(voti);
+            }
+            return voti;
         }
+        else return getVotiData();
+    }
+    public List<Voto> getVotiData(int orderBy){
+        List<Voto> voti = this.getVotiData();
+        if (orderBy == VOTO_ORDER_BY_NEWEST)
+            Collections.sort(voti, new DataVotoComparator());
+        if (orderBy == VOTO_ORDER_BY_HIGHEST)
+            Collections.sort(voti, new VotoComparator());
         return voti;
     }
 
@@ -58,7 +68,7 @@ public class VotoManager {
         int crediti = getCreditiConseguiti();
         float media = 0;
         for(Voto voto: voti){
-            media += voto.getVotoI() / crediti;
+            media += voto.getVotoI() * 1.0 / crediti;
         }
         return media;
     }
