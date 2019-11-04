@@ -15,10 +15,7 @@ public class TassaManager {
     public static TassaManager getInstance(){ return TassaManager; }
 
     public List<Tassa> getTasseData(){
-        if( tassaHelper.getAll().size() == 0 ) {
-            return getTasseData(true);
-        }
-        else return tassaHelper.getAll();
+        return tassaHelper.getAll();
     }
     public List<Tassa> getTasseData(Boolean forceUpdate){
         if(forceUpdate) {
@@ -28,7 +25,7 @@ public class TassaManager {
             } catch (Exception e) {
                 throw e;
             }
-            if(tasse != null && tasse.size() > 0) {
+            if(tasse != null) {
                 //Se non ci sono stati errori nel download dei nuovi voti aggiorno il DB
                 tassaHelper.flushTable();
                 tassaHelper.addTasse(tasse);

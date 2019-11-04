@@ -23,39 +23,33 @@ import android.widget.TextView;
 
 import com.example.rigobobo.DataManager.InfoManager;
 import com.example.rigobobo.DataManager.TassaManager;
+import com.example.rigobobo.DataManager.VotoManager;
 import com.example.rigobobo.Model.Info;
 import com.example.rigobobo.Model.Tassa;
 import com.example.rigobobo.R;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class HomeContentFragment extends Fragment {
 
-    AsyncTask<Void, Void, Info> runningTask;
-    static View thisView;
+    AsyncTask<Void, Void, HomeData> runningTask;
+    RecyclerView recyclerView;
+    LinearLayout thisView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
+        thisView = (LinearLayout) inflater.inflate(
                 R.layout.fragment_home_content, container, false);
-        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-
-        int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
-        recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView = thisView.findViewById(R.id.my_recycler_view);
 
         if (runningTask != null) runningTask.cancel(true);
         runningTask = new LoadData();
         runningTask.execute();
 
-        return recyclerView;
+        return thisView;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -70,7 +64,6 @@ public class HomeContentFragment extends Fragment {
             name = (TextView) itemView.findViewById(R.id.tile_title);
             color = (ImageView) itemView.findViewById(R.id.tile_color);
             img = (ImageView) itemView.findViewById(R.id.tile_img);
-            thisView = itemView;
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -130,55 +123,59 @@ public class HomeContentFragment extends Fragment {
     }
 
 
-    private final class LoadData extends AsyncTask<Void, Void, Info> {
+    //Async data loading
+
+    private static class HomeData {
+        Info info;
+        float media;
+        int crediti;
+        int tasseCount;
+    }
+
+    private final class LoadData extends AsyncTask<Void, Void, HomeData> {
 
         @Override
-        protected Info doInBackground(Void... params) {
-            Info info;
+        protected HomeData doInBackground(Void... params) {
+            HomeData data = new HomeData();
             try {
-                info = InfoManager.getInstance().getInfoData();
+                data.info = InfoManager.getInstance().getInfoData();
+                data.media = VotoManager.getInstance().getMediaPesata();
+                data.crediti = VotoManager.getInstance().getCreditiConseguiti();
+                data.tasseCount = TassaManager.getInstance().getTasseData().size();
             }
             catch (Exception e){
                 return null;
             }
-            System.out.println(info);
-            return info;
+            return data;
         }
 
         @Override
-        protected void onPostExecute(Info info) {
-            /*
-            LinearLayout content = thisView.findViewById(R.id.content);
-            View scrollList = getLayoutInflater().inflate(R.layout.item_scroll_list, null);
-            content.addView(scrollList);
-            LinearLayout list = thisView.findViewById(R.id.list);
+        protected void onPostExecute(HomeData data) {
+            //Load layout
+            ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
+            recyclerView.setAdapter(adapter);
+            recyclerView.setHasFixedSize(true);
 
-            if(tasse == null || tasse.size() == 0){
-                //TODO Set empty view or show alert if fail
-                View infoItem = getLayoutInflater().inflate(R.layout.item_info, null);
-                TextView info = infoItem.findViewById(R.id.info);
-                info.setText( "Non sono presenti nuove tasse da pagare" );
-                list.addView(infoItem);
-                return;
+            int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
+            recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+            if(data == null) return;
+
+            View homeInfoItem = getLayoutInflater().inflate(R.layout.fragment_home_info_item, null);
+            TextView nome = homeInfoItem.findViewById(R.id.nome);
+            nome.setText( "Bentornato " + data.info.getNome() );
+            TextView corso_anno = homeInfoItem.findViewById(R.id.corso_anno);
+            corso_anno.setText( "Sei iscritto al " + data.info.getAnnoStr() + " di " + data.info.getCorsoDiStudio() );
+            TextView media_crediti = homeInfoItem.findViewById(R.id.media_crediti);
+            DecimalFormat decimalFormat = new DecimalFormat("#.0");
+            media_crediti.setText( "La tua media è " + decimalFormat.format(data.media) + " e in totale hai accumulato " + data.crediti + " crediti");
+            if(data.tasseCount != 0) {
+                TextView tasse = homeInfoItem.findViewById(R.id.tasse);
+                tasse.setText("ATTENZIONE: hai nuove tasse da pagare");
             }
-
-            Button topButton = (Button) getLayoutInflater().inflate(R.layout.item_top_button, null);
-            topButton.setText("Vai su Esse3 per pagare le tasse");
-            content.addView(topButton, 1);
-
-            View alertItem = getLayoutInflater().inflate(R.layout.item_alert, null);
-            TextView info = alertItem.findViewById(R.id.info);
-            info.setText( "Sono presenti nuove tasse da pagare" );
-            list.addView(alertItem);
-
-            for(Tassa it: tasse){
-                View item = getLayoutInflater().inflate(R.layout.activity_tassa_item, null);
-                TextView importo = item.findViewById(R.id.importo);
-                TextView scadenza = item.findViewById(R.id.scadenza);
-                importo.setText( Float.toString(it.getImporto()) );
-                scadenza.setText( it.getScadenzaFormatted() );
-                list.addView(item);
-            }*/
+            thisView.addView(homeInfoItem, 0);
+            return;
         }
 
     }

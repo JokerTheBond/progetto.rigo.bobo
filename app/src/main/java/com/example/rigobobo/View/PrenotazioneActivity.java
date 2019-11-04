@@ -4,10 +4,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.rigobobo.DataManager.PrenotazioneManager;
 import com.example.rigobobo.Model.Prenotazione;
@@ -18,33 +20,52 @@ import java.util.List;
 /**
  * Provides UI for the Detail page with Collapsing Toolbar.
  */
-public class PrenotazioneActivity extends AppCompatActivity {
+public class PrenotazioneActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
+    PrenotazioneActivity instance;
     AsyncTask<Void, Void, List<Prenotazione>> runningTask;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
 
         setContentView(R.layout.activity_generic);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("I miei appelli");
 
-        //TODO Qua potrei mostrare un loader (ma non è necessario se ho la cache)
+        swipeRefreshLayout = findViewById(R.id.content);
+        swipeRefreshLayout.setOnRefreshListener(instance);
+        ScrollView scrollList = (ScrollView) getLayoutInflater().inflate(R.layout.item_scroll_list, null);
+        swipeRefreshLayout.addView(scrollList);
 
         if (runningTask != null) runningTask.cancel(true);
-        runningTask = new LoadData();
+        runningTask = new LoadData(false);
+        runningTask.execute();
+    }
+
+    @Override
+    public void onRefresh() {
+        if (runningTask != null) runningTask.cancel(true);
+        runningTask = new LoadData(true);
         runningTask.execute();
     }
 
     private final class LoadData extends AsyncTask<Void, Void, List<Prenotazione>> {
 
+        private Boolean forceUpdate;
+
+        public LoadData(Boolean forceUpdate){
+            this.forceUpdate = forceUpdate;
+        }
+
         @Override
         protected List<Prenotazione> doInBackground(Void... params) {
             List<Prenotazione> prenotazioni;
             try {
-                prenotazioni = PrenotazioneManager.getInstance().getPrenotazioniData();
+                prenotazioni = PrenotazioneManager.getInstance().getPrenotazioniData(forceUpdate);
             }
             catch (Exception e){
                 return null;
@@ -54,10 +75,9 @@ public class PrenotazioneActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<Prenotazione> prenotazioni) {
-            LinearLayout content = findViewById(R.id.content);
-            View scrollList = getLayoutInflater().inflate(R.layout.item_scroll_list, null);
-            content.addView(scrollList);
+            swipeRefreshLayout.setRefreshing(false); //Set this off if the page has reloaded
             LinearLayout list = findViewById(R.id.list);
+            list.removeAllViews();
 
             if(prenotazioni == null || prenotazioni.size() == 0){
                 //TODO Set empty view or show alert if fail

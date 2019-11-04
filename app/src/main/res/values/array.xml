@@ -96,7 +96,7 @@
         <item>Appelli</item>
         <item>Voti</item>
         <item>Prenotazioni</item>
-        <item>Tasse (0)</item>
+        <item>Tasse</item>
     </array>
     <color name="azzurro">#00bcd4</color>
     <color name="verde">#8bc34a</color>
@@ -114,16 +114,5 @@
         <item>@drawable/ic_prenotazioni</item>
         <item>@drawable/ic_tasse</item>
     </array>
-
-    <!-- File Content -->
-    <string-array name="folders">
-        <item>../</item>
-        <item>Palais Garnie</item>
-        <item>Piazza del Duomo</item>
-        <item>Manhattan</item>
-        <item>Senso-ji</item>
-        <item>Sultan Ahmed Mosque</item>
-        <item>Table Mountain</item>
-    </string-array>
 
 </resources>

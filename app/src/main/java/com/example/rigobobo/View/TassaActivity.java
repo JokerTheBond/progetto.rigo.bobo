@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.rigobobo.DataManager.TassaManager;
 import com.example.rigobobo.Model.Tassa;
@@ -21,33 +23,57 @@ import java.util.List;
 /**
  * Provides UI for the Detail page with Collapsing Toolbar.
  */
-public class TassaActivity extends AppCompatActivity {
+public class TassaActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
+    TassaActivity instance;
     AsyncTask<Void, Void, List<Tassa>> runningTask;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
 
         setContentView(R.layout.activity_generic);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Tasse universitarie");
 
-        //TODO Qua potrei mostrare un loader (ma non è necessario se ho la cache)
+        swipeRefreshLayout = findViewById(R.id.content);
+        swipeRefreshLayout.setOnRefreshListener(instance);
+        ScrollView scrollList = (ScrollView) getLayoutInflater().inflate(R.layout.item_scroll_list, null);
+        swipeRefreshLayout.addView(scrollList);
+
+        LinearLayout parentLayout = findViewById(R.id.parent);
+        Button topButton = (Button) getLayoutInflater().inflate(R.layout.item_top_button, null);
+        topButton.setText("Vai su Esse3 per pagare le tasse");
+        parentLayout.addView(topButton, 1);
 
         if (runningTask != null) runningTask.cancel(true);
-        runningTask = new LoadData();
+        runningTask = new LoadData(false);
+        runningTask.execute();
+    }
+
+    @Override
+    public void onRefresh() {
+        if (runningTask != null) runningTask.cancel(true);
+        runningTask = new LoadData(true);
         runningTask.execute();
     }
 
     private final class LoadData extends AsyncTask<Void, Void, List<Tassa>> {
 
+        private Boolean forceUpdate;
+
+        public LoadData(Boolean forceUpdate){
+            this.forceUpdate = forceUpdate;
+        }
+
         @Override
         protected List<Tassa> doInBackground(Void... params) {
             List<Tassa> tasse;
             try {
-                tasse = TassaManager.getInstance().getTasseData();
+                tasse = TassaManager.getInstance().getTasseData(forceUpdate);
             }
             catch (Exception e){
                 return null;
@@ -57,10 +83,9 @@ public class TassaActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<Tassa> tasse) {
-            LinearLayout content = findViewById(R.id.content);
-            View scrollList = getLayoutInflater().inflate(R.layout.item_scroll_list, null);
-            content.addView(scrollList);
+            swipeRefreshLayout.setRefreshing(false); //Set this off if the page has reloaded
             LinearLayout list = findViewById(R.id.list);
+            list.removeAllViews();
 
             if(tasse == null || tasse.size() == 0){
                 //TODO Set empty view or show alert if fail
@@ -70,10 +95,6 @@ public class TassaActivity extends AppCompatActivity {
                 list.addView(infoItem);
                 return;
             }
-
-            Button topButton = (Button) getLayoutInflater().inflate(R.layout.item_top_button, null);
-            topButton.setText("Vai su Esse3 per pagare le tasse");
-            content.addView(topButton, 1);
 
             View alertItem = getLayoutInflater().inflate(R.layout.item_alert, null);
             TextView info = alertItem.findViewById(R.id.info);

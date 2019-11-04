@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(bottomNavListener);
         setFragment();
 
+        /** HIDE SIDE BAR
         // Create Navigation drawer and inflate layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             supportActionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
+        */
     }
 
     @Override
@@ -81,9 +83,11 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        } else if (id == android.R.id.home) {
+        }
+        /** HIDE SIDE MENU else if (id == android.R.id.home) {
             mDrawerLayout.openDrawer(GravityCompat.START);
-        } else if (id == R.id.action_logout) {
+        }*/
+        else if (id == R.id.action_logout) {
             /*TODO: delete database or create user specific tables*/
             deleteSharedPreferences("login");
             finish();
@@ -132,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* SIDE MENU */
 
+    /** HIDE SIDE BAR
     private DrawerLayout mDrawerLayout;
 
     private NavigationView.OnNavigationItemSelectedListener sideNavListener =
@@ -141,15 +146,18 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(MenuItem menuItem) {
                     // Set item in checked state
                     menuItem.setChecked(true);
-                    // TODO: handle navigation
                     // Closing drawer on item click
                     mDrawerLayout.closeDrawers();
                     return true;
                 }
             };
+     */
+
+    /* useful getContext method */
 
     public static Context getContext()
     {
         return instance;
     }
+
 }

@@ -21,10 +21,7 @@ public class VotoManager {
     public static VotoManager getInstance(){ return votoManager; }
 
     public List<Voto> getVotiData(){
-        if( votoHelper.getAll().size() == 0 ) {
-            return getVotiData(true);
-        }
-        else return votoHelper.getAll();
+        return votoHelper.getAll();
     }
     public List<Voto> getVotiData(Boolean forceUpdate){
         if(forceUpdate) {
@@ -68,7 +65,7 @@ public class VotoManager {
         int crediti = getCreditiConseguiti();
         float media = 0;
         for(Voto voto: voti){
-            media += voto.getVotoI() * 1.0 / crediti;
+            media += voto.getVotoI() * 1.0 * voto.getCrediti() / crediti;
         }
         return media;
     }

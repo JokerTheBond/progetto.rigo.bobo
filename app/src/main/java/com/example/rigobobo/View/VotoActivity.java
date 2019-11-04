@@ -2,12 +2,18 @@ package com.example.rigobobo.View;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+import android.widget.OverScroller;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.rigobobo.DataManager.VotoManager;
 import com.example.rigobobo.Model.Voto;
@@ -18,32 +24,52 @@ import java.util.List;
 /**
  * Provides UI for the Detail page with Collapsing Toolbar.
  */
-public class VotoActivity extends AppCompatActivity {
+public class VotoActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
+    VotoActivity instance;
     AsyncTask<Void, Void, List<Voto>> runningTask;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
 
         setContentView(R.layout.activity_generic);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("I miei voti");
 
-        //TODO Qua potrei mostrare un loader (ma non è necessario se ho la cache)
+        swipeRefreshLayout = findViewById(R.id.content);
+        swipeRefreshLayout.setOnRefreshListener(instance);
+        ScrollView scrollList = (ScrollView) getLayoutInflater().inflate(R.layout.item_scroll_list, null);
+        swipeRefreshLayout.addView(scrollList);
 
         if (runningTask != null) runningTask.cancel(true);
-        runningTask = new LoadData();
+        runningTask = new LoadData(false);
+        runningTask.execute();
+    }
+
+    @Override
+    public void onRefresh() {
+        if (runningTask != null) runningTask.cancel(true);
+        runningTask = new LoadData(true);
         runningTask.execute();
     }
 
     private final class LoadData extends AsyncTask<Void, Void, List<Voto>> {
 
+        private Boolean forceUpdate;
+
+        public LoadData(Boolean forceUpdate){
+            this.forceUpdate = forceUpdate;
+        }
+
         @Override
         protected List<Voto> doInBackground(Void... params) {
             List<Voto> voti;
             try {
+                VotoManager.getInstance().getVotiData(forceUpdate);
                 voti = VotoManager.getInstance().getVotiData(VotoManager.VOTO_ORDER_BY_NEWEST);
             }
             catch (Exception e){
@@ -54,10 +80,9 @@ public class VotoActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<Voto> voti) {
-            LinearLayout content = findViewById(R.id.content);
-            View scrollList = getLayoutInflater().inflate(R.layout.item_scroll_list, null);
-            content.addView(scrollList);
+            swipeRefreshLayout.setRefreshing(false); //Set this off if the page has reloaded
             LinearLayout list = findViewById(R.id.list);
+            list.removeAllViews();
 
             if(voti == null || voti.size() == 0){
                 //TODO Set empty view or show alert if fail
@@ -84,6 +109,22 @@ public class VotoActivity extends AppCompatActivity {
                 crediti.setText(Integer.toString(it.getCrediti()));
                 list.addView(item);
             }
+
+            /*
+            scrollList.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+
+                @Override
+                public void onScrollChanged() {
+                    //example
+                    View view = (View) scrollList.getChildAt(0);
+                    int diff = (view.getBottom() - (scrollList.getHeight() + scrollList.getScrollY()));
+                    System.out.println(diff + " " + scrollList.getScrollY());
+                    /*if(diff == 0 || scrollList.getScrollY() == 0 ){
+                        Toast.makeText(getApplicationContext(),"Refresh",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+*/
         }
     }
 }

@@ -37,7 +37,7 @@
             android:parentActivityName=".View.MainActivity">
         </activity>
         <activity
-            android:name=".View.LoginActivity">
+            android:name=".View.LoginActivity"
             android:parentActivityName=".View.MainActivity">
         </activity>
     </application>

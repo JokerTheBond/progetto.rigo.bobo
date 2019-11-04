@@ -15,10 +15,7 @@ public class PrenotazioneManager {
     public static PrenotazioneManager getInstance(){ return prenotazioneManager; }
 
     public List<Prenotazione> getPrenotazioniData(){
-        if( prenotazioneHelper.getAll().size() == 0 ) {
-            return getPrenotazioniData(true);
-        }
-        else return prenotazioneHelper.getAll();
+        return prenotazioneHelper.getAll();
     }
     public List<Prenotazione> getPrenotazioniData(Boolean forceUpdate){
         if(forceUpdate) {
@@ -28,7 +25,7 @@ public class PrenotazioneManager {
             } catch (Exception e) {
                 throw e;
             }
-            if(prenotazioni != null && prenotazioni.size() > 0) {
+            if(prenotazioni != null) {
                 //Se non ci sono stati errori nel download dei nuovi prenotazioni aggiorno il DB
                 prenotazioneHelper.flushTable();
                 prenotazioneHelper.addPrenotazioni(prenotazioni);

@@ -20,10 +20,7 @@ public class AppelloManager {
     public static AppelloManager getInstance(){ return appelloManager; }
 
     public List<Appello> getAppelliData(){
-        if( appelloHelper.getAll().size() == 0 ) {
-            return getAppelliData(true);
-        }
-        else return appelloHelper.getAll();
+        return appelloHelper.getAll();
     }
     public List<Appello> getAppelliData(Boolean forceUpdate){
         if(forceUpdate) {
@@ -33,8 +30,7 @@ public class AppelloManager {
             } catch (Exception e) {
                 throw e;
             }
-            if(appelli != null && appelli.size() > 0) {
-                //Se non ci sono stati errori nel download dei nuovi appelli aggiorno il DB
+            if(appelli != null) {
                 appelloHelper.flushTable();
                 appelloHelper.addAppelli(appelli);
             }

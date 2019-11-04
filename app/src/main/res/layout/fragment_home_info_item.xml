@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:clipToPadding="false"
+    android:paddingStart="8dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="4dp"
+    android:paddingEnd="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#FFFFFF"
+        android:elevation="2dp"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="72dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/home_text"
+                tools:text="Hello" />
+
+            <TextView
+                android:id="@+id/corso_anno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/home_text"
+                tools:text="Hello2" />
+
+            <TextView
+                android:id="@+id/media_crediti"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/home_text"
+                tools:text="Hello2" />
+
+            <TextView
+                android:id="@+id/tasse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/home_text"
+                tools:text="Hello2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginLeft="-72dp"
+            ></LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
