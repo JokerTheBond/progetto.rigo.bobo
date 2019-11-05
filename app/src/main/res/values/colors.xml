@@ -11,4 +11,6 @@
     <color name="color2427">#8BC34A</color>
     <color name="color2123">#CDDC39</color>
     <color name="color1820">#FFEB3B</color>
+    <color name="colorPrimaryDark">#CB3234</color>
+    <color name="green">@android:color/holo_green_dark</color>
 </resources>
