@@ -55,13 +55,14 @@ public class MainActivity extends AppCompatActivity {
         ListenableFuture<List<WorkInfo>> future = WorkManager.getInstance().getWorkInfosByTag(Esse3Synchronizer.TAG);
         try {
             List<WorkInfo> list = future.get();
+            System.out.println(list);
             // start only if no such tasks present
             if ((list == null) || (list.size() == 0)) {
                 Constraints constraints = new Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.CONNECTED).build();
                 PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(
-                        Esse3Synchronizer.class, 15, TimeUnit.MINUTES)
-                        //Esse3Synchronizer.class, 1, TimeUnit.HOURS)
+                        //Esse3Synchronizer.class, 15, TimeUnit.MINUTES)
+                        Esse3Synchronizer.class, 1, TimeUnit.HOURS)
                         .addTag(Esse3Synchronizer.TAG)
                         .setConstraints(constraints)
                         .build();

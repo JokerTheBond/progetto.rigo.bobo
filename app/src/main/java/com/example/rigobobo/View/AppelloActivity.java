@@ -89,7 +89,6 @@ public class AppelloActivity extends AppCompatActivity implements SwipeRefreshLa
             list.removeAllViews();
 
             if(appelli == null || appelli.size() == 0){
-                //TODO Set empty view or show alert if fail
                 View alertItem = getLayoutInflater().inflate(R.layout.item_alert, null);
                 TextView info = alertItem.findViewById(R.id.info);
                 info.setText( "Non sono stati trovati appelli" );

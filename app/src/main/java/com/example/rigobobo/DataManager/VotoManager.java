@@ -54,7 +54,6 @@ public class VotoManager {
     }
 
     public int getCreditiConseguiti(){
-        //TODO Qui usare cache
         List<Voto> voti = getVotiData();
         int crediti = 0;
         for(Voto voto: voti){
@@ -64,7 +63,6 @@ public class VotoManager {
     }
 
     public float getMediaPesata(){
-        //TODO Qui usare cache
         List<Voto> voti = getVotiData();
         int crediti = getCreditiConseguiti();
         float media = 0;

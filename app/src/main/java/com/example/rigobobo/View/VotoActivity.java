@@ -85,7 +85,6 @@ public class VotoActivity extends AppCompatActivity implements SwipeRefreshLayou
             list.removeAllViews();
 
             if(voti == null || voti.size() == 0){
-                //TODO Set empty view or show alert if fail
                 View alertItem = getLayoutInflater().inflate(R.layout.item_alert, null);
                 TextView info = alertItem.findViewById(R.id.info);
                 info.setText( "Non hai ancora nessun voto" );

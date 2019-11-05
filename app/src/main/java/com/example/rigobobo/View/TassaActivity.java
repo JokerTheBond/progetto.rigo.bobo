@@ -88,7 +88,6 @@ public class TassaActivity extends AppCompatActivity implements SwipeRefreshLayo
             list.removeAllViews();
 
             if(tasse == null || tasse.size() == 0){
-                //TODO Set empty view or show alert if fail
                 View infoItem = getLayoutInflater().inflate(R.layout.item_info, null);
                 TextView info = infoItem.findViewById(R.id.info);
                 info.setText( "Non sono presenti nuove tasse da pagare" );

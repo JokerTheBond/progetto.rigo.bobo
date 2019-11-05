@@ -55,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textSize="@dimen/home_text"
+                android:visibility="gone"
                 tools:text="Hello2" />
 
         </LinearLayout>

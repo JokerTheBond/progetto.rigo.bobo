@@ -35,11 +35,9 @@ public class Esse3Parser {
     private String password = null;
 
     private Esse3Parser() {
-        System.out.println("hello1");
         SharedPreferences sharedPreferences =
                 MainActivity.getContext().getSharedPreferences("login", MODE_PRIVATE);
         if (sharedPreferences.contains("username") && sharedPreferences.contains("password")) {
-            System.out.println("hello3");
             username = sharedPreferences.getString("username", "");
             password = sharedPreferences.getString("password", "");
         }
@@ -63,7 +61,6 @@ public class Esse3Parser {
     }
 
     public Boolean checkCredentials(){
-        System.out.println("hello4");
         return (username != null && password != null);
     }
 

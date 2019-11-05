@@ -1,5 +1,7 @@
 package com.example.rigobobo.Model;
 
+import androidx.annotation.NonNull;
+
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,5 +40,15 @@ public class Notifica {
     public String getDescrizione(){return descrizione;}
     public String getTipo(){return tipo;}
     public Date getDataOra(){return data_ora;}
+    public String getDataOraStr(){
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy 'alle' HH:mm");
+        return format.format(getDataOra());
+    }
     public Boolean getVista(){return vista;}
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getTitolo()+" - "+getDescrizione()+" - "+getTipo()+" - "+getDataOra().toString()+" - "+getVista().toString();
+    }
 }

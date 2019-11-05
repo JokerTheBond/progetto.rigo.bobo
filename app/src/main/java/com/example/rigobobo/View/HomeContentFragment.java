@@ -193,6 +193,7 @@ public class HomeContentFragment extends Fragment {
             if(data.tasseCount != 0) {
                 TextView tasse = homeInfoItem.findViewById(R.id.tasse);
                 tasse.setText("ATTENZIONE: hai nuove tasse da pagare");
+                tasse.setVisibility(View.VISIBLE);
             }
 
             //ImageView fotoProfilo = (ImageView) homeInfoItem.findViewById(R.id.foto_profilo);

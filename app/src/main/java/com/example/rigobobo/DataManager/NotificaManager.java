@@ -1,5 +1,7 @@
 package com.example.rigobobo.DataManager;
 
+import androidx.annotation.NonNull;
+
 import com.example.rigobobo.Database.NotificaHelper;
 import com.example.rigobobo.Model.Notifica;
 
@@ -28,5 +30,4 @@ public class NotificaManager {
     }
 
     public int countUnseen(){ return 0; }
-
 }

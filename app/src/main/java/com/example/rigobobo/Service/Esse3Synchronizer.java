@@ -88,8 +88,7 @@ public class Esse3Synchronizer extends Worker {
     private void sendNotifica(){
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
-        NotificationManager notificationManager = (NotificationManager)
-                MainActivity.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = MainActivity.getContext().getSystemService(NotificationManager.class);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.getContext())
                 .setSmallIcon(R.drawable.ic_home)

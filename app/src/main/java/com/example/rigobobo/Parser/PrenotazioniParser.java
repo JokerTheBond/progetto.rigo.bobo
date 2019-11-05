@@ -19,7 +19,6 @@ public class PrenotazioniParser {
     public static List<Prenotazione> getPrenotazioniData(Document doc){
         Prenotazioni = new ArrayList<>();
         if(doc == null) return Prenotazioni;
-        //TODO Cosa succede se metto una classe sbagliata qua?
         Elements tables = doc.getElementsByClass("detail_table").select("table");
         for(Element table: tables) {
             PrenotazioneParser t = new PrenotazioneParser(table);

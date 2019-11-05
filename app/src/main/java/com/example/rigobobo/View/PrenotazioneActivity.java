@@ -80,7 +80,6 @@ public class PrenotazioneActivity extends AppCompatActivity implements SwipeRefr
             list.removeAllViews();
 
             if(prenotazioni == null || prenotazioni.size() == 0){
-                //TODO Set empty view or show alert if fail
                 View alertItem = getLayoutInflater().inflate(R.layout.item_alert, null);
                 TextView info = alertItem.findViewById(R.id.info);
                 info.setText( "Non è stato prenotato alcun appello" );

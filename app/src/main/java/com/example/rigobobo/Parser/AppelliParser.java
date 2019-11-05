@@ -17,7 +17,6 @@ public class AppelliParser {
     public static List<Appello> getAppelliData(Document doc){
         Appelli = new ArrayList<>();
         if(doc == null) return Appelli;
-        //TODO cosa succede se metto un id invalido?
         Elements rows = doc.getElementById("app-tabella_appelli").getElementsByTag("tr");
         for(Element row: rows) {
             AppelloParser t = new AppelloParser(row);
