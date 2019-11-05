@@ -19,6 +19,10 @@ public class AppelloManager {
     private AppelloManager(){}
     public static AppelloManager getInstance(){ return appelloManager; }
 
+    public void clear(){
+        appelloHelper.flushTable();
+    }
+
     public List<Appello> getAppelliData(){
         return appelloHelper.getAll();
     }

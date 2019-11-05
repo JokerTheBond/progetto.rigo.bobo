@@ -14,12 +14,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.rigobobo.DataManager.AppelloManager;
-import com.example.rigobobo.DataManager.DataManager;
 import com.example.rigobobo.DataManager.InfoManager;
 import com.example.rigobobo.DataManager.PrenotazioneManager;
 import com.example.rigobobo.DataManager.TassaManager;
 import com.example.rigobobo.DataManager.VotoManager;
 import com.example.rigobobo.Model.Info;
+import com.example.rigobobo.Parser.Esse3Parser;
 import com.example.rigobobo.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 "Caricamento...", true);
 
         //Check dei dati di login
-        DataManager.getInstance().setCredentials(username, password);
+        Esse3Parser.getInstance().setCredentials(username, password);
         if (runningTask != null) runningTask.cancel(true);
         runningTask = new CheckLogin();
         runningTask.execute();
@@ -100,8 +100,8 @@ public class LoginActivity extends AppCompatActivity {
 
             if(info != null) {
                 //Check passato
-                editor.putString("username", DataManager.getInstance().getUsername());
-                editor.putString("password", DataManager.getInstance().getPassword());
+                editor.putString("username", Esse3Parser.getInstance().getUsername());
+                editor.putString("password", Esse3Parser.getInstance().getPassword());
             }
             else {
                 //Errore nel login

@@ -2,23 +2,34 @@ package com.example.rigobobo.View;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
-import com.example.rigobobo.DataManager.DataManager;
+import com.example.rigobobo.DataManager.AppelloManager;
+import com.example.rigobobo.DataManager.InfoManager;
+import com.example.rigobobo.DataManager.NotificaManager;
+import com.example.rigobobo.DataManager.PrenotazioneManager;
+import com.example.rigobobo.DataManager.TassaManager;
+import com.example.rigobobo.DataManager.VotoManager;
+import com.example.rigobobo.Parser.Esse3Parser;
 import com.example.rigobobo.R;
+import com.example.rigobobo.Service.Esse3Synchronizer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
+import com.google.common.util.concurrent.ListenableFuture;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,19 +40,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         instance = this;
 
-        //Get user login info
-        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-        if(!sharedPreferences.contains("username") || !sharedPreferences.contains("password")){
+        //Check if the user has logged in
+        if(!Esse3Parser.getInstance().checkCredentials()){
             Context context = MainActivity.this;
             Intent loginActivity = new Intent(context, LoginActivity.class);
             context.startActivity(loginActivity);
             return;
         }
         //Ok, the user has logged in
-        DataManager.getInstance().setCredentials(
-                sharedPreferences.getString("username", ""),
-                sharedPreferences.getString("password", ""));
         setContentView(R.layout.activity_main);
+
+        //Setup the Esse3Synchronizer
+        //TODO: known issue: in some devices this run only when the app is open
+        ListenableFuture<List<WorkInfo>> future = WorkManager.getInstance().getWorkInfosByTag(Esse3Synchronizer.TAG);
+        try {
+            List<WorkInfo> list = future.get();
+            // start only if no such tasks present
+            if ((list == null) || (list.size() == 0)) {
+                Constraints constraints = new Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED).build();
+                PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(
+                        Esse3Synchronizer.class, 15, TimeUnit.MINUTES)
+                        //Esse3Synchronizer.class, 1, TimeUnit.HOURS)
+                        .addTag(Esse3Synchronizer.TAG)
+                        .setConstraints(constraints)
+                        .build();
+                WorkManager.getInstance().enqueue(periodicWorkRequest);
+            }
+        } catch (Exception e){ System.out.println("EXCEPTION"); }
 
         // Adding Toolbar to Main screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -81,15 +107,20 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        /**if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
         /** HIDE SIDE MENU else if (id == android.R.id.home) {
             mDrawerLayout.openDrawer(GravityCompat.START);
         }*/
-        else if (id == R.id.action_logout) {
-            /*TODO: delete database or create user specific tables*/
-            deleteSharedPreferences("login");
+        if (id == R.id.action_logout) {
+            Esse3Parser.getInstance().setCredentials(null, null);
+            AppelloManager.getInstance().clear();
+            VotoManager.getInstance().clear();
+            PrenotazioneManager.getInstance().clear();
+            TassaManager.getInstance().clear();
+            InfoManager.getInstance().clear();
+            NotificaManager.getInstance().clear();
             finish();
             Context context = MainActivity.this;
             Intent intent = new Intent(context,MainActivity.class);

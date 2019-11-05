@@ -5,7 +5,12 @@ import android.database.Cursor;
 
 import androidx.annotation.Nullable;
 
+import com.example.rigobobo.Model.Notifica;
+import com.example.rigobobo.Model.Voto;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class NotificaHelper {
 
@@ -29,19 +34,43 @@ public class NotificaHelper {
 
     public NotificaHelper(){}
 
-    public void addNotifica(String tipo, String titolo, String descrizione, Date data_ora){
+    public void addNotifica(Notifica notifica){
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TIPO, tipo);
-        contentValues.put(TITOLO, titolo);
-        contentValues.put(DESCRIZIONE, descrizione);
-        contentValues.put(DATA_ORA, data_ora.getTime());
-        contentValues.put(VISTA, false);
+        contentValues.put(TIPO, notifica.getTipo());
+        contentValues.put(TITOLO, notifica.getTitolo());
+        contentValues.put(DESCRIZIONE, notifica.getDescrizione());
+        contentValues.put(DATA_ORA, notifica.getDataOra().getTime());
+        contentValues.put(VISTA, notifica.getVista());
         DBOpenHelper.getInstance().getWritableDatabase().insert(
                 TABLE_NAME,  null, contentValues);
     }
 
-    public Cursor getAll(){
-        return DBOpenHelper.getInstance().getReadableDatabase().query(
-                TABLE_NAME, null, null, null, null, null, null);
+    public void flushTable(){
+        DBOpenHelper.getInstance().getWritableDatabase().delete(TABLE_NAME, null, null);
+    }
+
+
+    public List<Notifica> getAll(String orderBy) {
+        List<Notifica> notifiche = new ArrayList<>();
+        Cursor cursor = DBOpenHelper.getInstance().getReadableDatabase().query(
+                TABLE_NAME, null, null, null, null, null, orderBy);
+        while (cursor.moveToNext()) {
+            Date data = new Date();
+            data.setTime(cursor.getLong(cursor.getColumnIndex(DATA_ORA)));
+            Notifica notifica = new Notifica(
+                    cursor.getString(cursor.getColumnIndex(TITOLO)),
+                    cursor.getString(cursor.getColumnIndex(DESCRIZIONE)),
+                    cursor.getString(cursor.getColumnIndex(TIPO)),
+                    data,
+                    cursor.getInt(cursor.getColumnIndex(VISTA))>0
+            );
+            notifiche.add(notifica);
+        }
+        cursor.close();
+        return notifiche;
+    }
+
+    public List<Notifica> getAll() {
+        return getAll(ID + " DESC");
     }
 }

@@ -13,6 +13,10 @@ public class InfoManager {
     private InfoManager(){}
     public static InfoManager getInstance(){ return infoManager; }
 
+    public void clear(){
+        infoHelper.flushTable();
+    }
+
     public Info getInfoData(){
         if( infoHelper.getInfo() == null ) {
             return getInfoData(true);

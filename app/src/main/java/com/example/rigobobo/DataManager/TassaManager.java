@@ -14,6 +14,10 @@ public class TassaManager {
     private TassaManager (){ }
     public static TassaManager getInstance(){ return TassaManager; }
 
+    public void clear(){
+        tassaHelper.flushTable();
+    }
+
     public List<Tassa> getTasseData(){
         return tassaHelper.getAll();
     }

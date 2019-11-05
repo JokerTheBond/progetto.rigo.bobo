@@ -109,22 +109,6 @@ public class VotoActivity extends AppCompatActivity implements SwipeRefreshLayou
                 crediti.setText(Integer.toString(it.getCrediti()));
                 list.addView(item);
             }
-
-            /*
-            scrollList.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-
-                @Override
-                public void onScrollChanged() {
-                    //example
-                    View view = (View) scrollList.getChildAt(0);
-                    int diff = (view.getBottom() - (scrollList.getHeight() + scrollList.getScrollY()));
-                    System.out.println(diff + " " + scrollList.getScrollY());
-                    /*if(diff == 0 || scrollList.getScrollY() == 0 ){
-                        Toast.makeText(getApplicationContext(),"Refresh",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-*/
         }
     }
 }

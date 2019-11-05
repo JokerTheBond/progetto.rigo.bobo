@@ -26,7 +26,7 @@
     <dimen name="navheader_height">222dp</dimen>
 
     <!-- home -->
-    <dimen name="home_text">14sp</dimen>
+    <dimen name="home_text">15sp</dimen>
 
     <!-- voto -->
     <dimen name="voto_title">16sp</dimen>

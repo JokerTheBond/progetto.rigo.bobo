@@ -28,6 +28,11 @@ import com.example.rigobobo.Model.Info;
 import com.example.rigobobo.Model.Tassa;
 import com.example.rigobobo.R;
 
+import java.io.InputStream;
+import java.net.Authenticator;
+import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -130,6 +135,7 @@ public class HomeContentFragment extends Fragment {
         float media;
         int crediti;
         int tasseCount;
+        //Drawable fotoProfilo;
     }
 
     private final class LoadData extends AsyncTask<Void, Void, HomeData> {
@@ -146,6 +152,20 @@ public class HomeContentFragment extends Fragment {
             catch (Exception e){
                 return null;
             }
+            /*try {
+                Authenticator.setDefault (new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("242433", "D6YLRDSZ".toCharArray());
+                    }
+                });
+                HttpURLConnection myURLConnection = (HttpURLConnection) new URL(data.info.getFotoProfilo()).openConnection();
+                myURLConnection.setRequestProperty("Authorization", "MjQyNDMzOkQ2WUxSRFNa");
+                InputStream is = (InputStream) myURLConnection.getContent();
+                data.fotoProfilo = Drawable.createFromStream(is, "src name");
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }*/
             return data;
         }
 
@@ -174,7 +194,12 @@ public class HomeContentFragment extends Fragment {
                 TextView tasse = homeInfoItem.findViewById(R.id.tasse);
                 tasse.setText("ATTENZIONE: hai nuove tasse da pagare");
             }
+
+            //ImageView fotoProfilo = (ImageView) homeInfoItem.findViewById(R.id.foto_profilo);
+            //fotoProfilo.setImageDrawable(data.fotoProfilo);
+
             thisView.addView(homeInfoItem, 0);
+
             return;
         }
 

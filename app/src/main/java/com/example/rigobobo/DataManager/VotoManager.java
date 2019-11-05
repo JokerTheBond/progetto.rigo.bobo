@@ -20,6 +20,10 @@ public class VotoManager {
     private VotoManager (){ }
     public static VotoManager getInstance(){ return votoManager; }
 
+    public void clear(){
+        votoHelper.flushTable();
+    }
+
     public List<Voto> getVotiData(){
         return votoHelper.getAll();
     }

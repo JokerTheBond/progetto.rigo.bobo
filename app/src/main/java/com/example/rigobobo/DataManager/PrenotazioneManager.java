@@ -14,6 +14,10 @@ public class PrenotazioneManager {
     private PrenotazioneManager (){ }
     public static PrenotazioneManager getInstance(){ return prenotazioneManager; }
 
+    public void clear(){
+        prenotazioneHelper.flushTable();
+    }
+
     public List<Prenotazione> getPrenotazioniData(){
         return prenotazioneHelper.getAll();
     }

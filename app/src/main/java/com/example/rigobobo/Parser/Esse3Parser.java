@@ -5,6 +5,7 @@ import org.jsoup.Connection;
 import org.jsoup.Connection.Response;
 import org.jsoup.nodes.Document;
 
+import android.content.SharedPreferences;
 import android.util.Base64;
 
 import com.example.rigobobo.Model.Appello;
@@ -12,10 +13,13 @@ import com.example.rigobobo.Model.Info;
 import com.example.rigobobo.Model.Prenotazione;
 import com.example.rigobobo.Model.Tassa;
 import com.example.rigobobo.Model.Voto;
+import com.example.rigobobo.View.MainActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /*
@@ -24,28 +28,43 @@ import java.util.List;
  * Quindi creo n funzioni, una per ogni pagina della quale ho bisogno di fare il parsing
  */
 
-//TODO Throw exception and notify user if something is wrong (make a check for every single operation)
-//only this class need some fixes
-
 public class Esse3Parser {
 
     private static Esse3Parser parser = new Esse3Parser();
     private String username = null;
     private String password = null;
 
-    private Esse3Parser(){ }
+    private Esse3Parser() {
+        System.out.println("hello1");
+        SharedPreferences sharedPreferences =
+                MainActivity.getContext().getSharedPreferences("login", MODE_PRIVATE);
+        if (sharedPreferences.contains("username") && sharedPreferences.contains("password")) {
+            System.out.println("hello3");
+            username = sharedPreferences.getString("username", "");
+            password = sharedPreferences.getString("password", "");
+        }
+    }
+
     public static Esse3Parser getInstance(){ return parser; }
 
     public Esse3Parser setCredentials(String username, String password){
         this.username = username;
         this.password = password;
+        if(username == null && password == null) MainActivity.getContext().deleteSharedPreferences("login");
         return this;
     }
 
-    /* TODO use checkCredentials */
-    private Boolean checkCredentials(){
-        if (username == null || password == null) return false;
-        return true;
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Boolean checkCredentials(){
+        System.out.println("hello4");
+        return (username != null && password != null);
     }
 
 
