@@ -2,6 +2,8 @@
 <resources>
     <color name="white">#FFFFFF</color>
     <color name="primary">#e64a10</color>
+    <color name="primaryDark">#b83b0d</color>
+    <color name="primaryLightest">#15E64A10</color>
     <color name="dark_grey">#424242</color>
     <color name="medium_grey">#9E9E9E</color>
     <color name="button_grey">#757575</color>
@@ -11,6 +13,8 @@
     <color name="color2427">#8BC34A</color>
     <color name="color2123">#CDDC39</color>
     <color name="color1820">#FFEB3B</color>
-    <color name="colorPrimaryDark">#CB3234</color>
     <color name="green">@android:color/holo_green_dark</color>
+    <color name="altGrey1">#ddd</color>
+    <color name="altGrey2">#ddd</color>
+    <color name="inactiveText">#BBBBBB</color>
 </resources>

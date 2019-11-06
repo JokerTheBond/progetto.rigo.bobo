@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="8dp"
+    >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/azzurro"
                 android:id="@+id/eventdate"
                 android:textStyle="bold"
                 android:text="Date"
@@ -29,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@android:color/holo_green_light"
+                android:textColor="@color/verde"
                 android:id="@+id/eventname"
                 android:textStyle="bold"
                 android:text="Evento"
@@ -52,7 +53,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/ic_action_notification_off"
-                android:background="@color/colorPrimaryDark"/>
+                android:background="@color/primary"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

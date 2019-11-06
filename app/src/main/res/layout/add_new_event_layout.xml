@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/primary">
 
     <EditText
         android:layout_width="match_parent"
@@ -22,12 +22,13 @@
         <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@mipmap/orologio"
-            android:layout_margin="10dp"
+            android:background="@drawable/ic_clock"
+            android:backgroundTint="@color/white"
+            android:layout_marginLeft="30dp"
             android:id="@+id/seteventtime"
             android:contentDescription="TODO"
-            tools:ignore="ContentDescription,HardcodedText"
-            android:layout_weight="1"/>
+            android:layout_gravity="center"
+            tools:ignore="ContentDescription,HardcodedText"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +44,7 @@
             />
         <CheckBox
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Ricorda"
             android:textColor="@android:color/white"
             android:buttonTint="@android:color/white"

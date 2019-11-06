@@ -8,49 +8,47 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:background="@android:color/holo_red_dark">
-        <ImageButton
+        android:padding="8dp"
+        android:background="@color/background">
+
+        <ImageView
+            android:id="@+id/Previous"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/Previous"
-            android:background="@mipmap/previous"
-            android:layout_margin="10dp"
-            />
+            android:src="@drawable/ic_previous"
+            android:scaleType="center"/>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:layout_marginTop="4dp"
             android:text="CurrentDate"
             android:id="@+id/current_Date"
-            android:textColor="@android:color/white"
+            android:textColor="@color/dark_grey"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_weight="3"/>
-        <ImageButton
+        <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/Next"
-            android:background="@mipmap/next"
-            android:layout_margin="10dp"
-            />
+            android:src="@drawable/ic_next"
+            android:scaleType="center"/>
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/background">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Dom"
-            android:background="@android:color/holo_blue_dark"
-            android:layout_marginTop="4dp"
+            android:background="@color/altGrey1"
+            android:paddingTop="@dimen/days_padding"
+            android:paddingBottom="@dimen/days_padding"
             android:layout_weight="1"
             android:textStyle="bold"
             />
@@ -59,8 +57,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Lun"
-            android:background="@android:color/holo_orange_light"
-            android:layout_marginTop="4dp"
+            android:background="@color/altGrey2"
+            android:paddingTop="@dimen/days_padding"
+            android:paddingBottom="@dimen/days_padding"
             android:layout_weight="1"
             android:textStyle="bold"
             />
@@ -69,8 +68,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Mar"
-            android:background="@android:color/holo_blue_dark"
-            android:layout_marginTop="4dp"
+            android:background="@color/altGrey1"
+            android:paddingTop="@dimen/days_padding"
+            android:paddingBottom="@dimen/days_padding"
             android:layout_weight="1"
             android:textStyle="bold"
             />
@@ -79,8 +79,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Mer"
-            android:background="@android:color/holo_orange_light"
-            android:layout_marginTop="4dp"
+            android:background="@color/altGrey2"
+            android:paddingTop="@dimen/days_padding"
+            android:paddingBottom="@dimen/days_padding"
             android:layout_weight="1"
             android:textStyle="bold"
             />
@@ -89,8 +90,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Gio"
-            android:background="@android:color/holo_blue_dark"
-            android:layout_marginTop="4dp"
+            android:background="@color/altGrey1"
+            android:paddingTop="@dimen/days_padding"
+            android:paddingBottom="@dimen/days_padding"
             android:layout_weight="1"
             android:textStyle="bold"
             />
@@ -99,8 +101,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Ven"
-            android:background="@android:color/holo_orange_light"
-            android:layout_marginTop="4dp"
+            android:background="@color/altGrey2"
+            android:paddingTop="@dimen/days_padding"
+            android:paddingBottom="@dimen/days_padding"
             android:layout_weight="1"
             android:textStyle="bold"
             />
@@ -109,8 +112,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Sab"
-            android:background="@android:color/holo_blue_dark"
-            android:layout_marginTop="4dp"
+            android:background="@color/altGrey1"
+            android:paddingTop="@dimen/days_padding"
+            android:paddingBottom="@dimen/days_padding"
             android:layout_weight="1"
             android:textStyle="bold"
             />

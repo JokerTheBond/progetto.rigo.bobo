@@ -1,5 +1,6 @@
 package com.example.rigobobo.Service;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -88,21 +89,6 @@ public class Esse3Synchronizer extends Worker {
     private void sendNotifica(){
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
-        NotificationManager notificationManager = MainActivity.getContext().getSystemService(NotificationManager.class);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.getContext())
-                .setSmallIcon(R.drawable.ic_home)
-                .setContentTitle(this.title)
-                .setContentText(this.description)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //TODO Fixare ntofica per android 8+
-            CharSequence name = "RigoBoboC";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            notificationManager.createNotificationChannel(channel);
-        }
 
         Intent resultIntent = new Intent(MainActivity.getContext(), this.activity);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.getContext());
@@ -110,9 +96,29 @@ public class Esse3Synchronizer extends Worker {
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        builder.setContentIntent(resultPendingIntent);
 
-        // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(0, builder.build());
+        Notification notification = new NotificationCompat.Builder(MainActivity.getContext(), CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_home)
+                .setContentTitle(this.title)
+                .setContentText(this.description)
+                .setContentIntent(resultPendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .build();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //TODO Fixare ntofica per android 8+
+            CharSequence name = "RigoBoboC";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationManager notificationManager = MainActivity.getContext().getSystemService(NotificationManager.class);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            notificationManager.createNotificationChannel(channel);
+            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.getContext());
+            notificationManagerCompat.notify(0,notification);
+        }
+        else {
+            // notificationId is a unique int for each notification that you must define
+            NotificationManager notificationManager = MainActivity.getContext().getSystemService(NotificationManager.class);
+            notificationManager.notify(0, notification);
+        }
     }
 }

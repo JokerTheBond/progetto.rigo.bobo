@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -46,7 +47,7 @@ import static com.example.rigobobo.Database.EventHelper.TIME;
 import static com.example.rigobobo.Database.EventHelper.YEAR;
 
 public class CustCalendarView extends LinearLayout{
-    ImageButton Nextbtn,Previousbtn;
+    ImageView Nextbtn,Previousbtn;
     TextView CurrentDate;
     GridView gridview;
 
@@ -272,7 +273,7 @@ public class CustCalendarView extends LinearLayout{
     }
 
     private void SetUpCalendar(){
-        String cDate = dateFormat.format(calendar.getTime());
+        String cDate = dateFormat.format(calendar.getTime()).toUpperCase();
         CurrentDate.setText(cDate);
         dates.clear();
         Calendar monthCalendar= (Calendar) calendar.clone();
